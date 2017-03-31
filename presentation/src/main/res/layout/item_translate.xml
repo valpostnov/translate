@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="16dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/item_translate_translated_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_toStartOf="@+id/item_translate_bookmark"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        tools:text="Hello"/>
+
+    <TextView
+        android:id="@+id/item_translate_original_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_translate_translated_text"
+        android:layout_toStartOf="@+id/item_translate_bookmark"
+        android:textSize="16sp"
+        tools:text="Привет"/>
+
+    <ToggleButton
+        android:id="@+id/item_translate_bookmark"
+        style="@style/AppTheme.ToggleButton"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:clickable="true"
+        />
+</RelativeLayout>

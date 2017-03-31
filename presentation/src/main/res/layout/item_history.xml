@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:clickable="true">
+
+    <ToggleButton
+        android:id="@+id/item_history_bookmark"
+        style="@style/AppTheme.ToggleButton"
+        android:layout_centerVertical="true" />
+
+    <TextView
+        android:id="@+id/item_history_original_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_toEndOf="@+id/item_history_bookmark"
+        android:layout_toStartOf="@+id/item_history_lang"
+        android:textColor="#FF5C78AC"
+        android:textSize="14sp"
+        tools:text="original" />
+
+    <TextView
+        android:id="@+id/item_synonym_translated_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_history_original_text"
+        android:layout_toEndOf="@+id/item_history_bookmark"
+        android:layout_toStartOf="@+id/item_history_lang"
+        android:paddingBottom="16dp"
+        android:textColor="#FFBC7774"
+        android:textSize="14sp"
+        tools:text="translate" />
+
+    <TextView
+        android:id="@+id/item_history_lang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textAllCaps="true"
+        tools:text="RU - EN" />
+</RelativeLayout>

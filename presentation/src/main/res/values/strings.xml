@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">translate</string>
+    <string name="title_home">Главная</string>
+    <string name="title_dashboard">История</string>
+    <string name="title_settings">Настройки</string>
+    <string name="fragment_main_input_hint">Введите текст</string>
+    <string name="choose_original_lang">Выберите язык оригинала</string>
+    <string name="choose_translate_lang">Выберите язык перевода</string>
+</resources>

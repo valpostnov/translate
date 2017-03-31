@@ -1,0 +1,84 @@
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.fabric.io/public' }
+    }
+}
+
+ext {
+    //Android
+    androidBuildToolsVersion = "25.0.2"
+    androidMinSdkVersion = 19
+    androidTargetSdkVersion = 25
+    androidCompileSdkVersion = 25
+
+    //Libraries
+    supportLibVersion = "25.3.0"
+    daggerVersion = '2.9'
+    butterKnifeVersion = '8.5.1'
+    recyclerViewVersion = '25.3.0'
+    rxJavaVersion = '1.2.7'
+    rxAndroidVersion = '1.2.1'
+    rxBindingsVersion = '1.0.1'
+    javaxAnnotationVersion = '1.0'
+    javaxInjectVersion = '1'
+    gsonVersion = '2.8.0'
+    retrofitVersion = "2.2.0"
+    storeIOVersion = '1.12.3'
+    glideVersion = '3.7.0'
+
+    //Testing
+    jUnitVersion = '4.12'
+    mockitoVersion = '2.7.18'
+
+
+
+    presentationDependencies = [
+            supportLib:             "com.android.support:support-v4:$supportLibVersion",
+            appCompat:              "com.android.support:appcompat-v7:$supportLibVersion",
+            design:                 "com.android.support:design:$supportLibVersion",
+            daggerCompiler:         "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger:                 "com.google.dagger:dagger:${daggerVersion}",
+            butterKnife:            "com.jakewharton:butterknife:${butterKnifeVersion}",
+            recyclerView:           "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+            rxAndroid:              "io.reactivex:rxandroid:${rxAndroidVersion}",
+            javaxAnnotation:        "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            glide:                  "com.github.bumptech.glide:glide:${glideVersion}",
+            butterKnifeCompiler:    "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            rxBindings:             "com.jakewharton.rxbinding:rxbinding:${rxBindingsVersion}"
+    ]
+
+    presentationTestDependencies = [
+            junit:              "junit:junit:${jUnitVersion}",
+            mockito:            "org.mockito:mockito-core:${mockitoVersion}"
+    ]
+
+    domainDependencies = [
+            javaxAnnotation:    "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject:        "javax.inject:javax.inject:${javaxInjectVersion}",
+            rxJava:              "io.reactivex:rxjava:${rxJavaVersion}"
+    ]
+
+    domainTestDependencies = [
+            junit:              "junit:junit:${jUnitVersion}",
+            mockito:            "org.mockito:mockito-core:${mockitoVersion}"
+    ]
+
+    dataDependencies = [
+            daggerCompiler:         "com.google.dagger:dagger-compiler:${daggerVersion}",
+            dagger:                 "com.google.dagger:dagger:${daggerVersion}",
+            retrofit:               "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            retrofitJsonConverter:  "com.squareup.retrofit2:converter-gson:$retrofitVersion",
+            retrofitRxAdapter:      "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion",
+            gson:                   "com.google.code.gson:gson:${gsonVersion}",
+            rxJava:                 "io.reactivex:rxjava:${rxJavaVersion}",
+            javaxAnnotation:        "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            javaxInject:            "javax.inject:javax.inject:${javaxInjectVersion}",
+            storeIO:                "com.pushtorefresh.storio:sqlite:${storeIOVersion}"
+    ]
+
+    dataTestDependencies = [
+            junit:              "junit:junit:${jUnitVersion}",
+            mockito:            "org.mockito:mockito-core:${mockitoVersion}"
+    ]
+}
