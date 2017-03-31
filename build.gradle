@@ -1,0 +1,27 @@
+apply from: 'buildsystem/dependencies.gradle'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.0'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath 'me.tatarka:gradle-retrolambda:3.5.0'
+    }
+}
+
+allprojects {
+
+    ext {
+        androidApplicationId = 'com.postnov.android.translate.presentation'
+        androidVersionCode = 1
+        androidVersionName = "1.0"
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+        testApplicationId = 'com.postnov.android.translate.presentation.test'
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
