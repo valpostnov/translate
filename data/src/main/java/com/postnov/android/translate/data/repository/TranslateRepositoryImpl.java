@@ -63,14 +63,19 @@ public class TranslateRepositoryImpl implements TranslateRepository {
     }
 
     @Override
-    public Completable deleteHistory(List<HistoryItem> items) {
+    public Completable markHistoryForDelete(List<HistoryItem> items) {
         CollectionUtils.doOnEach(items, item -> item.setHistory(false));
-        return localDatasource.deleteHistory(items);
+        return localDatasource.markHistoryForDelete(items);
     }
 
     @Override
     public Completable addOrDeleteBookmark(HistoryItem historyItem) {
         return Completable.fromAction(() -> localDatasource.saveOrUpdate(historyItem));
+    }
+
+    @Override
+    public Completable deleteHistory() {
+        return localDatasource.deleteHistory();
     }
 
     private void addOrUpdate(Translate translate) {

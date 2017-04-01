@@ -1,9 +1,6 @@
 package com.postnov.android.translate.domain.interactor;
 
-import com.postnov.android.translate.domain.HistoryItem;
 import com.postnov.android.translate.domain.repository.TranslateRepository;
-
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -12,17 +9,17 @@ import rx.Completable;
 /**
  * @author Valentin Postnov
  */
-public class DeleteHistoryUseCase implements UseCase<List<HistoryItem>, Completable> {
+public class DeleteHistoryUseCase implements UseCase<Void, Completable> {
 
-    private final TranslateRepository repository;
+    private final TranslateRepository translateRepository;
 
     @Inject
-    public DeleteHistoryUseCase(TranslateRepository repository) {
-        this.repository = repository;
+    public DeleteHistoryUseCase(TranslateRepository translateRepository) {
+        this.translateRepository = translateRepository;
     }
 
     @Override
-    public Completable execute(List<HistoryItem> items) {
-        return repository.deleteHistory(items);
+    public Completable execute(Void aVoid) {
+        return translateRepository.deleteHistory();
     }
 }

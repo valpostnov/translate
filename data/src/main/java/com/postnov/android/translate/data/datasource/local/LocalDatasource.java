@@ -20,5 +20,7 @@ public interface LocalDatasource {
 
     Completable deleteBookmarks(List<HistoryItem> items);
 
-    Completable deleteHistory(List<HistoryItem> items);
+    Completable markHistoryForDelete(List<HistoryItem> items);
+
+    Completable deleteHistory();
 }

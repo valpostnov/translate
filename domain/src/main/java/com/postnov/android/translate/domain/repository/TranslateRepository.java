@@ -22,7 +22,9 @@ public interface TranslateRepository {
 
     Completable deleteBookmarks(List<HistoryItem> items);
 
-    Completable deleteHistory(List<HistoryItem> items);
+    Completable markHistoryForDelete(List<HistoryItem> items);
 
     Completable addOrDeleteBookmark(HistoryItem item);
+
+    Completable deleteHistory();
 }

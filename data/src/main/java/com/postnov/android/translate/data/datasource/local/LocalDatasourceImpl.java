@@ -1,5 +1,6 @@
 package com.postnov.android.translate.data.datasource.local;
 
+import com.postnov.android.translate.data.datasource.local.table.HistoryItemTable;
 import com.postnov.android.translate.domain.HistoryItem;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
@@ -62,9 +63,18 @@ public class LocalDatasourceImpl implements LocalDatasource {
     }
 
     @Override
-    public Completable deleteHistory(List<HistoryItem> items) {
+    public Completable markHistoryForDelete(List<HistoryItem> items) {
         return storIOSQLite.put()
                 .objects(items)
+                .prepare()
+                .asRxCompletable();
+    }
+
+    @Override
+    public Completable deleteHistory() {
+        return storIOSQLite
+                .delete()
+                .byQuery(HistoryItemTable.QUERY_DELETE_HISTORY)
                 .prepare()
                 .asRxCompletable();
     }

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author Valentin Postnov
  */
-public class DictionaryTypeAdapter implements JsonDeserializer<DictionaryEntity> {
+public class DictionaryJsonDeserializer implements JsonDeserializer<DictionaryEntity> {
 
     private static final String KEY_DEF = "def";
     private static final String KEY_DEF_TEXT = "text";

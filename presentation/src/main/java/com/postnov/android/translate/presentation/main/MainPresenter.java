@@ -5,6 +5,7 @@ import com.postnov.android.translate.data.util.LanguageHelperImpl.LanguagePair;
 import com.postnov.android.translate.domain.HistoryItem;
 import com.postnov.android.translate.domain.Translate;
 import com.postnov.android.translate.domain.interactor.AddOrDeleteBookmarkUseCase;
+import com.postnov.android.translate.domain.interactor.DeleteHistoryUseCase;
 import com.postnov.android.translate.domain.interactor.GetTranslateUseCase;
 import com.postnov.android.translate.presentation.base.BaseMvpPresenter;
 import com.postnov.android.translate.presentation.bus.RxBus;
@@ -36,14 +37,16 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
     private final Action1<String> callInnerFetchTranslate;
     private final Func1<String, String> trim = String::trim;
     private final Func1<String, Boolean> isEmpty = it -> !it.isEmpty();
+    private final DeleteHistoryUseCase deleteHistoryUseCase;
 
     @Inject
     MainPresenter(GetTranslateUseCase getTranslateUseCase, AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase,
-                  RxBus bus, LanguageHelperImpl languageHelper) {
+                  RxBus bus, LanguageHelperImpl languageHelper, DeleteHistoryUseCase deleteHistoryUseCase) {
         this.getTranslateUseCase = getTranslateUseCase;
         this.addOrDeleteBookmarkUseCase = addOrDeleteBookmarkUseCase;
         this.historyItemChangesObservable = bus.toObservable();
         this.languageHelper = languageHelper;
+        this.deleteHistoryUseCase = deleteHistoryUseCase;
         this.queryChangeObservable = queryChangeSubject.asObservable();
         this.callInnerFetchTranslate = this::innerFetchTranslate;
     }
@@ -53,6 +56,18 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
         super.attachView(view);
         subscribeOnEvents();
         subscribeOnQueryChange();
+    }
+
+    @Override
+    public void detachView() {
+        deleteHistory();
+        super.detachView();
+    }
+
+    private void deleteHistory() {
+        addSubscription(deleteHistoryUseCase.execute(null)
+                .compose(rxTransformer.completableSubscribeOn())
+                .subscribe());
     }
 
     void fetchTranslate(String query) {

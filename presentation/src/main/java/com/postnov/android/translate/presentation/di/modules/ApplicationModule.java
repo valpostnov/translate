@@ -11,7 +11,7 @@ import com.postnov.android.translate.data.datasource.local.TranslateOpenHelper;
 import com.postnov.android.translate.data.datasource.local.resolver.HistoryItemSQLiteTypeMapping;
 import com.postnov.android.translate.data.datasource.local.table.HistoryItemTable;
 import com.postnov.android.translate.data.entity.DictionaryEntity;
-import com.postnov.android.translate.data.gson.DictionaryTypeAdapter;
+import com.postnov.android.translate.data.gson.DictionaryJsonDeserializer;
 import com.postnov.android.translate.data.util.LanguageHelper;
 import com.postnov.android.translate.data.util.LanguageHelperImpl;
 import com.postnov.android.translate.data.util.PreferencesManager;
@@ -91,7 +91,7 @@ public class ApplicationModule {
     @Singleton
     Gson provideGson() {
         return new GsonBuilder()
-                .registerTypeAdapter(DictionaryEntity.class, new DictionaryTypeAdapter())
+                .registerTypeAdapter(DictionaryEntity.class, new DictionaryJsonDeserializer())
                 .create();
     }
 

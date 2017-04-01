@@ -29,7 +29,7 @@ public class HistoryFragment extends BaseHistoryFragment<HistoryPresenter> {
 
     @Override
     protected void onClickDelete() {
-        presenter.deleteAll(historyItemAdapter.getHistory());
+        presenter.markForDeleteAll(historyItemAdapter.getHistory());
     }
 
     @Override

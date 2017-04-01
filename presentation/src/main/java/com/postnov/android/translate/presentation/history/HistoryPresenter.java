@@ -2,7 +2,7 @@ package com.postnov.android.translate.presentation.history;
 
 import com.postnov.android.translate.domain.HistoryItem;
 import com.postnov.android.translate.domain.interactor.AddOrDeleteBookmarkUseCase;
-import com.postnov.android.translate.domain.interactor.DeleteHistoryUseCase;
+import com.postnov.android.translate.domain.interactor.MarkHistoryForDeleteUseCase;
 import com.postnov.android.translate.domain.interactor.GetHistoryUseCase;
 import com.postnov.android.translate.presentation.base.BaseMvpPresenter;
 import com.postnov.android.translate.presentation.bus.RxBus;
@@ -24,16 +24,16 @@ class HistoryPresenter extends BaseMvpPresenter<HistoryView> {
 
     private final GetHistoryUseCase getHistoryUseCase;
     private final AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase;
-    private final DeleteHistoryUseCase deleteHistoryUseCase;
+    private final MarkHistoryForDeleteUseCase markHistoryForDeleteUseCase;
     private final Observable<Changes> changesObservable;
     private final RxBus rxBus;
 
     @Inject
     HistoryPresenter(GetHistoryUseCase getHistoryUseCase, AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase,
-                     DeleteHistoryUseCase deleteHistoryUseCase, Observable<Changes> changesObservable, RxBus rxBus) {
+                     MarkHistoryForDeleteUseCase markHistoryForDeleteUseCase, Observable<Changes> changesObservable, RxBus rxBus) {
         this.getHistoryUseCase = getHistoryUseCase;
         this.addOrDeleteBookmarkUseCase = addOrDeleteBookmarkUseCase;
-        this.deleteHistoryUseCase = deleteHistoryUseCase;
+        this.markHistoryForDeleteUseCase = markHistoryForDeleteUseCase;
         this.changesObservable = changesObservable;
         this.rxBus = rxBus;
     }
@@ -62,8 +62,8 @@ class HistoryPresenter extends BaseMvpPresenter<HistoryView> {
         });
     }
 
-    void deleteAll(List<HistoryItem> items) {
-        addSubscription(deleteHistoryUseCase.execute(items)
+    void markForDeleteAll(List<HistoryItem> items) {
+        addSubscription(markHistoryForDeleteUseCase.execute(items)
                 .compose(rxTransformer.completableSubscribeOn())
                 .subscribe(() -> rxBus.post(Collections.max(items))));
     }
