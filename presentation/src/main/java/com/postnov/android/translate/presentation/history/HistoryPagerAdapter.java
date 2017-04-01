@@ -1,4 +1,4 @@
-package com.postnov.android.translate.presentation.main;
+package com.postnov.android.translate.presentation.history;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

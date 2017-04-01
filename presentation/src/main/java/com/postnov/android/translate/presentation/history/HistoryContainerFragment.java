@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.postnov.android.translate.presentation.R;
 import com.postnov.android.translate.presentation.base.BaseFragment;
-import com.postnov.android.translate.presentation.main.HistoryPagerAdapter;
 
 import butterknife.BindView;
 import butterknife.OnClick;
