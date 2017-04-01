@@ -46,6 +46,12 @@ public class HistoryContainerFragment extends BaseFragment<HistoryContainerPrese
         return R.layout.fragment_history_container;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     @OnClick(R.id.fragment_history_container_delete_history)
     void onDeleteClick() {
         BaseHistoryFragment fragment = (BaseHistoryFragment) historyPagerAdapter.instantiateItem(viewPager, viewPager.getCurrentItem());

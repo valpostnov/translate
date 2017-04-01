@@ -46,14 +46,14 @@ public abstract class BaseHistoryFragment<P extends BaseMvpPresenter> extends Ba
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         presenter.attachView(this);
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onStop() {
+        super.onStop();
         presenter.detachView();
     }
 

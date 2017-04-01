@@ -15,8 +15,8 @@ public class BookmarksFragment extends BaseHistoryFragment<BookmarksPresenter> {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         presenter.subscribeOnEvents();
         presenter.fetchFavorite();
     }

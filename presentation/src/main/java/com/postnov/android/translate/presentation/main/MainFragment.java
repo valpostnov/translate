@@ -41,10 +41,29 @@ public class MainFragment extends BaseFragment<MainPresenter> implements MainFra
     @BindView(R.id.fragment_main_toolbar_lng2)
     TextView chosenTranslateLang;
 
-    private TranslateAdapter translateAdapter;
+    private final TranslateAdapter translateAdapter = new TranslateAdapter();
 
     public static MainFragment newInstance() {
         return new MainFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        presenter.attachView(this);
+        presenter.fetchLanguages();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.detachView();
     }
 
     @Override
@@ -99,19 +118,6 @@ public class MainFragment extends BaseFragment<MainPresenter> implements MainFra
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        presenter.attachView(this);
-        presenter.fetchLanguages();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        presenter.detachView();
-    }
-
-    @Override
     public void onBookmarkClick(HistoryItem item) {
         presenter.addOrDeleteBookmarkForLatItem(item);
     }
@@ -145,7 +151,6 @@ public class MainFragment extends BaseFragment<MainPresenter> implements MainFra
     }
 
     private void initRecyclerView() {
-        translateAdapter = new TranslateAdapter();
         translateAdapter.setOnBookmarkClickListener(this);
         rv.setAdapter(translateAdapter);
         rv.setLayoutManager(new LinearLayoutManager(getContext()));

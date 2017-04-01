@@ -14,13 +14,21 @@ import butterknife.BindView;
  */
 public class MainActivity extends BaseActivity {
 
+    public static final String SELECTED_TAB = "SELECTED_TAB";
+
     @BindView(R.id.main_tab_layout)
     TabLayout tabLayout;
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SELECTED_TAB, tabLayout.getSelectedTabPosition());
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new TabPagerAdapter(tabLayout, getSupportFragmentManager());
+        new TabPagerAdapter(tabLayout, getSupportFragmentManager(), savedInstanceState);
     }
 
     @Override
