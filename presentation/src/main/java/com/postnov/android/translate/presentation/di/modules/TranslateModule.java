@@ -1,14 +1,19 @@
 package com.postnov.android.translate.presentation.di.modules;
 
+import com.postnov.android.translate.data.RxBaseResponseMapper;
 import com.postnov.android.translate.data.api.DictionaryApi;
 import com.postnov.android.translate.data.api.TranslateApi;
+import com.postnov.android.translate.data.api.error.ErrorBodyParser;
 import com.postnov.android.translate.data.datasource.local.LocalDatasource;
 import com.postnov.android.translate.data.datasource.local.LocalDatasourceImpl;
 import com.postnov.android.translate.data.datasource.remote.DictionaryRemoteDatasource;
 import com.postnov.android.translate.data.datasource.remote.RemoteDatasource;
 import com.postnov.android.translate.data.datasource.remote.TranslateRemoteDatasource;
+import com.postnov.android.translate.data.entity.DictionaryEntity;
+import com.postnov.android.translate.data.entity.TranslateEntity;
 import com.postnov.android.translate.data.repository.TranslateRepositoryImpl;
 import com.postnov.android.translate.domain.QueryMapFactory;
+import com.postnov.android.translate.domain.Translate;
 import com.postnov.android.translate.domain.interactor.AddOrDeleteBookmarkUseCase;
 import com.postnov.android.translate.domain.interactor.GetBookmarksUseCase;
 import com.postnov.android.translate.domain.interactor.GetHistoryUseCase;
@@ -36,7 +41,8 @@ public class TranslateModule {
     @Singleton
     DictionaryApi provideDictionaryApi(Retrofit.Builder builder) {
         return builder
-                .baseUrl(DICTIONARY_ENDPOINT).build()
+                .baseUrl(DICTIONARY_ENDPOINT)
+                .build()
                 .create(DictionaryApi.class);
 
     }
@@ -53,8 +59,8 @@ public class TranslateModule {
     @Provides
     @Singleton
     @Named("dictionary")
-    RemoteDatasource provideDictionaryRemoteDatasource(DictionaryApi api) {
-        return new DictionaryRemoteDatasource(api);
+    RemoteDatasource provideDictionaryRemoteDatasource(DictionaryApi api, RxBaseResponseMapper<DictionaryEntity> mapper) {
+        return new DictionaryRemoteDatasource(api, mapper);
     }
 
     @Provides
@@ -66,8 +72,8 @@ public class TranslateModule {
     @Provides
     @Singleton
     @Named("translate")
-    RemoteDatasource provideTranslateRemoteDatasource(TranslateApi api) {
-        return new TranslateRemoteDatasource(api);
+    RemoteDatasource provideTranslateRemoteDatasource(TranslateApi api, RxBaseResponseMapper<TranslateEntity> mapper) {
+        return new TranslateRemoteDatasource(api, mapper);
     }
 
     @Provides
@@ -100,5 +106,17 @@ public class TranslateModule {
     @Singleton
     AddOrDeleteBookmarkUseCase provideAddDeleteBookmarkUseCase(TranslateRepository repository) {
         return new AddOrDeleteBookmarkUseCase(repository);
+    }
+
+    @Provides
+    @Singleton
+    RxBaseResponseMapper<TranslateEntity> provideTranslateBaseResponseMapper(ErrorBodyParser errorBodyParser) {
+        return new RxBaseResponseMapper<>(errorBodyParser);
+    }
+
+    @Provides
+    @Singleton
+    RxBaseResponseMapper<DictionaryEntity> provideDictionaryBaseResponseMapper(ErrorBodyParser errorBodyParser) {
+        return new RxBaseResponseMapper<>(errorBodyParser);
     }
 }
