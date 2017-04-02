@@ -11,7 +11,6 @@ import com.postnov.android.translate.domain.repository.TranslateRepository;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import rx.Completable;
 import rx.Observable;
@@ -30,8 +29,7 @@ public class TranslateRepositoryImpl implements TranslateRepository {
     private final RemoteDatasource translate;
 
     @Inject
-    public TranslateRepositoryImpl(LocalDatasource localDatasource, QueryMapFactory queryFactory,
-                                   @Named("dictionary") RemoteDatasource dictionary, @Named("translate") RemoteDatasource translate) {
+    public TranslateRepositoryImpl(LocalDatasource localDatasource, QueryMapFactory queryFactory, RemoteDatasource dictionary, RemoteDatasource translate) {
         this.queryFactory = queryFactory;
         this.localDatasource = localDatasource;
         this.dictionary = dictionary;

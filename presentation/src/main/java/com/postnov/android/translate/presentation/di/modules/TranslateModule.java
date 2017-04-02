@@ -36,8 +36,8 @@ import rx.Observable;
 @Module
 public class TranslateModule {
 
-    private static final String DICTIONARY_ENDPOINT = "https://dictionary.yandex.net/api/v1/dicservice.json/";
-    private static final String TRANSLATE_ENDPOINT = "https://translate.yandex.net/api/v1.5/tr.json/";
+    private static final String DICTIONARY_ENDPOINT = "empty";
+    private static final String TRANSLATE_ENDPOINT = "empty";
 
     @Provides
     @Singleton
@@ -51,10 +51,8 @@ public class TranslateModule {
 
     @Provides
     @Singleton
-    TranslateRepository provideTranslateRepository(
-            LocalDatasource localDatasource, @Named("dictionary") RemoteDatasource dictionaryDatasource,
+    TranslateRepository provideTranslateRepository(LocalDatasource localDatasource, @Named("dictionary") RemoteDatasource dictionaryDatasource,
             @Named("translate") RemoteDatasource translateDatasource, QueryMapFactory queryMapFactory) {
-
         return new TranslateRepositoryImpl(localDatasource, queryMapFactory, dictionaryDatasource, translateDatasource);
     }
 
