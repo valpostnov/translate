@@ -1,6 +1,6 @@
 package com.postnov.android.translate.presentation.main;
 
-import com.postnov.android.translate.data.util.LanguageHelperImpl;
+import com.postnov.android.translate.data.util.LanguageHelper;
 import com.postnov.android.translate.data.util.LanguageHelperImpl.LanguagePair;
 import com.postnov.android.translate.domain.HistoryItem;
 import com.postnov.android.translate.domain.Translate;
@@ -8,7 +8,6 @@ import com.postnov.android.translate.domain.interactor.AddOrDeleteBookmarkUseCas
 import com.postnov.android.translate.domain.interactor.DeleteHistoryUseCase;
 import com.postnov.android.translate.domain.interactor.GetTranslateUseCase;
 import com.postnov.android.translate.presentation.base.BaseMvpPresenter;
-import com.postnov.android.translate.presentation.bus.RxBus;
 import com.postnov.android.translate.presentation.utils.BaseSubscriber;
 
 import javax.inject.Inject;
@@ -31,7 +30,7 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
     private final GetTranslateUseCase getTranslateUseCase;
     private final AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase;
     private final Observable<HistoryItem> historyItemChangesObservable;
-    private final LanguageHelperImpl languageHelper;
+    private final LanguageHelper languageHelper;
     private final Observable<String> queryChangeObservable;
     private final Subject<String, String> queryChangeSubject = PublishSubject.create();
     private final Action1<String> callInnerFetchTranslate;
@@ -41,10 +40,11 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
 
     @Inject
     MainPresenter(GetTranslateUseCase getTranslateUseCase, AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase,
-                  RxBus bus, LanguageHelperImpl languageHelper, DeleteHistoryUseCase deleteHistoryUseCase) {
+                  Observable<HistoryItem> historyItemChangesObservable, LanguageHelper languageHelper, DeleteHistoryUseCase deleteHistoryUseCase) {
+
         this.getTranslateUseCase = getTranslateUseCase;
         this.addOrDeleteBookmarkUseCase = addOrDeleteBookmarkUseCase;
-        this.historyItemChangesObservable = bus.toObservable();
+        this.historyItemChangesObservable = historyItemChangesObservable;
         this.languageHelper = languageHelper;
         this.deleteHistoryUseCase = deleteHistoryUseCase;
         this.queryChangeObservable = queryChangeSubject.asObservable();
@@ -88,19 +88,28 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
                 .subscribe());
     }
 
-    private void deleteHistory() {
-        addSubscription(deleteHistoryUseCase.execute(null)
-                .compose(rxTransformer.completableSubscribeOn())
-                .subscribe());
-    }
-
-    private void subscribeOnQueryChange() {
+    void subscribeOnQueryChange() {
         addSubscription(queryChangeObservable
                 .debounce(DEBOUNCE_TIME, MILLISECONDS)
                 .map(trim)
                 .filter(isEmpty)
                 .compose(rxTransformer.observeOn())
                 .subscribe(callInnerFetchTranslate));
+    }
+
+    void subscribeOnEvents() {
+        subscribe(historyItemChangesObservable.ofType(HistoryItem.class), new BaseSubscriber<HistoryItem>() {
+            @Override
+            public void onNext(HistoryItem historyItem) {
+                getView().updateHistoryItem(historyItem);
+            }
+        });
+    }
+
+    void deleteHistory() {
+        addSubscription(deleteHistoryUseCase.execute(null)
+                .compose(rxTransformer.completableSubscribeOn())
+                .subscribe());
     }
 
     private void innerFetchTranslate(String query) {
@@ -116,15 +125,6 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
             public void onNext(Translate translate) {
                 getView().hideProgress();
                 getView().showTranslate(translate);
-            }
-        });
-    }
-
-    private void subscribeOnEvents() {
-        subscribe(historyItemChangesObservable.ofType(HistoryItem.class), new BaseSubscriber<HistoryItem>() {
-            @Override
-            public void onNext(HistoryItem historyItem) {
-                getView().updateHistoryItem(historyItem);
             }
         });
     }

@@ -36,6 +36,10 @@ public class BaseMvpPresenter<V extends BaseMvpView> {
         view = null;
     }
 
+    public V getView() {
+        return view;
+    }
+
     protected <T> void subscribe(Observable<T> observable, Subscriber<T> subscriber) {
         addSubscription(observable.compose(rxTransformer.chainSchedulers()).subscribe(subscriber));
     }
@@ -46,9 +50,5 @@ public class BaseMvpPresenter<V extends BaseMvpView> {
 
     protected void addSubscription(Subscription subscription) {
         compositeSubscription.add(subscription);
-    }
-
-    protected V getView() {
-        return view;
     }
 }

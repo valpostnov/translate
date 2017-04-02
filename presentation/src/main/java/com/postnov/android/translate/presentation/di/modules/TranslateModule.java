@@ -12,13 +12,14 @@ import com.postnov.android.translate.data.datasource.remote.TranslateRemoteDatas
 import com.postnov.android.translate.data.entity.DictionaryEntity;
 import com.postnov.android.translate.data.entity.TranslateEntity;
 import com.postnov.android.translate.data.repository.TranslateRepositoryImpl;
+import com.postnov.android.translate.domain.HistoryItem;
 import com.postnov.android.translate.domain.QueryMapFactory;
-import com.postnov.android.translate.domain.Translate;
 import com.postnov.android.translate.domain.interactor.AddOrDeleteBookmarkUseCase;
 import com.postnov.android.translate.domain.interactor.GetBookmarksUseCase;
 import com.postnov.android.translate.domain.interactor.GetHistoryUseCase;
 import com.postnov.android.translate.domain.interactor.GetTranslateUseCase;
 import com.postnov.android.translate.domain.repository.TranslateRepository;
+import com.postnov.android.translate.presentation.bus.RxBus;
 import com.pushtorefresh.storio.sqlite.StorIOSQLite;
 
 import javax.inject.Named;
@@ -27,6 +28,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
+import rx.Observable;
 
 /**
  * @author Valentin Postnov
@@ -34,8 +36,8 @@ import retrofit2.Retrofit;
 @Module
 public class TranslateModule {
 
-    private static final String DICTIONARY_ENDPOINT = "https://dictionary.yandex.net/api/v1/dicservice.json/";
-    private static final String TRANSLATE_ENDPOINT = "https://translate.yandex.net/api/v1.5/tr.json/";
+    private static final String DICTIONARY_ENDPOINT = "empty";
+    private static final String TRANSLATE_ENDPOINT = "empty";
 
     @Provides
     @Singleton
@@ -49,10 +51,10 @@ public class TranslateModule {
 
     @Provides
     @Singleton
-    TranslateRepository provideTranslateRepository(LocalDatasource localDatasource,
-                                                   @Named("dictionary") RemoteDatasource dictionaryDatasource,
-                                                   @Named("translate") RemoteDatasource translateDatasource,
-                                                   QueryMapFactory queryMapFactory) {
+    TranslateRepository provideTranslateRepository(
+            LocalDatasource localDatasource, @Named("dictionary") RemoteDatasource dictionaryDatasource,
+            @Named("translate") RemoteDatasource translateDatasource, QueryMapFactory queryMapFactory) {
+
         return new TranslateRepositoryImpl(localDatasource, queryMapFactory, dictionaryDatasource, translateDatasource);
     }
 
@@ -118,5 +120,11 @@ public class TranslateModule {
     @Singleton
     RxBaseResponseMapper<DictionaryEntity> provideDictionaryBaseResponseMapper(ErrorBodyParser errorBodyParser) {
         return new RxBaseResponseMapper<>(errorBodyParser);
+    }
+
+    @Provides
+    @Singleton
+    Observable<HistoryItem> provideHistoryItemChangesObservable(RxBus rxBus) {
+        return rxBus.toObservable();
     }
 }

@@ -4,7 +4,6 @@ import com.postnov.android.translate.presentation.utils.RxTransformer;
 import com.postnov.android.translate.presentation.utils.TestRxTransformer;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,29 +26,28 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class BaseMvpPresenterTest {
 
+    @Spy
+    @InjectMocks
+    public BaseMvpPresenter presenter;
     @Mock
     RxTransformer rxTransformer;
-
     @Mock
     SingleSubscriber<Any> singleSubscriber;
 
-    @Spy
-    @InjectMocks
-    BaseMvpPresenter presenter;
-
     @Before
-    public void setUp() {
+    public void baseSetUp() {
         given(rxTransformer.chainSchedulers()).willReturn(new TestRxTransformer().chainSchedulers());
-        given(rxTransformer.singleChainSchedulers()).willReturn(new TestRxTransformer().singleChainSchedulers());
+        given(rxTransformer.observeOn()).willReturn(new TestRxTransformer().observeOn());
+        given(rxTransformer.completableSubscribeOn()).willReturn(new TestRxTransformer().completableSubscribeOn());
     }
 
-    @Test
+
     public void givenObservableSubscriptionWhenSubscribe() {
         presenter.subscribe(Observable.empty(), new TestSubscriber<>());
         verify(presenter).addSubscription(any());
     }
 
-    @Test
+
     public void givenSingleSubscriptionWhenSubscribe() {
         presenter.subscribe(Single.just(null), singleSubscriber);
         verify(presenter).addSubscription(any());
