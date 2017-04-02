@@ -69,7 +69,7 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
     }
 
     void fetchLanguages() {
-        subscribe(languageHelper.getPair(), new BaseSubscriber<LanguagePair>() {
+        subscribeIO(languageHelper.getPair(), new BaseSubscriber<LanguagePair>() {
             @Override
             public void onNext(LanguagePair languagePair) {
                 getView().setDefLanguages(languagePair.getOriginal(), languagePair.getTranslate());
@@ -98,12 +98,10 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
     }
 
     void subscribeOnEvents() {
-        subscribe(historyItemChangesObservable.ofType(HistoryItem.class), new BaseSubscriber<HistoryItem>() {
-            @Override
-            public void onNext(HistoryItem historyItem) {
-                getView().updateHistoryItem(historyItem);
-            }
-        });
+        addSubscription(historyItemChangesObservable
+                .compose(rxTransformer.chainSchedulers())
+                .ofType(HistoryItem.class)
+                .subscribe(getView()::updateHistoryItem));
     }
 
     void deleteHistory() {
@@ -114,7 +112,7 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
 
     private void innerFetchTranslate(String query) {
         getView().showProgress();
-        subscribe(getTranslateUseCase.execute(query), new BaseSubscriber<Translate>() {
+        subscribeIO(getTranslateUseCase.execute(query), new BaseSubscriber<Translate>() {
             @Override
             public void onError(Throwable e) {
                 getView().hideProgress();

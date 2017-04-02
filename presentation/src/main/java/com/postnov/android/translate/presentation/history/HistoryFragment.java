@@ -17,7 +17,7 @@ public class HistoryFragment extends BaseHistoryFragment<HistoryPresenter> {
     @Override
     public void onResume() {
         super.onResume();
-        presenter.subscribeOnEvents();
+        presenter.subscribeOnDBChangeEvents();
         presenter.fetchHistory();
     }
 

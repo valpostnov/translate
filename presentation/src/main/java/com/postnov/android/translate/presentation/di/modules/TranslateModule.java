@@ -36,8 +36,8 @@ import rx.Observable;
 @Module
 public class TranslateModule {
 
-    private static final String DICTIONARY_ENDPOINT = "empty";
-    private static final String TRANSLATE_ENDPOINT = "empty";
+    private static final String DICTIONARY_ENDPOINT = "https://dictionary.yandex.net/api/v1/dicservice.json/";
+    private static final String TRANSLATE_ENDPOINT = "https://translate.yandex.net/api/v1.5/tr.json/";
 
     @Provides
     @Singleton

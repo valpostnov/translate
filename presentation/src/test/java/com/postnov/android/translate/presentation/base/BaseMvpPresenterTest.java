@@ -43,13 +43,13 @@ public class BaseMvpPresenterTest {
 
 
     public void givenObservableSubscriptionWhenSubscribe() {
-        presenter.subscribe(Observable.empty(), new TestSubscriber<>());
+        presenter.subscribeIO(Observable.empty(), new TestSubscriber<>());
         verify(presenter).addSubscription(any());
     }
 
 
     public void givenSingleSubscriptionWhenSubscribe() {
-        presenter.subscribe(Single.just(null), singleSubscriber);
+        presenter.subscribeIO(Single.just(null), singleSubscriber);
         verify(presenter).addSubscription(any());
     }
 }

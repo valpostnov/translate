@@ -25,21 +25,21 @@ class HistoryPresenter extends BaseMvpPresenter<HistoryView> {
     private final GetHistoryUseCase getHistoryUseCase;
     private final AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase;
     private final MarkHistoryForDeleteUseCase markHistoryForDeleteUseCase;
-    private final Observable<Changes> changesObservable;
+    private final Observable<Changes> dbChangesObservable;
     private final RxBus rxBus;
 
     @Inject
     HistoryPresenter(GetHistoryUseCase getHistoryUseCase, AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase,
-                     MarkHistoryForDeleteUseCase markHistoryForDeleteUseCase, Observable<Changes> changesObservable, RxBus rxBus) {
+                     MarkHistoryForDeleteUseCase markHistoryForDeleteUseCase, Observable<Changes> dbChangesObservable, RxBus rxBus) {
         this.getHistoryUseCase = getHistoryUseCase;
         this.addOrDeleteBookmarkUseCase = addOrDeleteBookmarkUseCase;
         this.markHistoryForDeleteUseCase = markHistoryForDeleteUseCase;
-        this.changesObservable = changesObservable;
+        this.dbChangesObservable = dbChangesObservable;
         this.rxBus = rxBus;
     }
 
     void fetchHistory() {
-        subscribe(getHistoryUseCase.execute(null), new BaseSingleSubscriber<List<HistoryItem>>() {
+        subscribeIO(getHistoryUseCase.execute(null), new BaseSingleSubscriber<List<HistoryItem>>() {
             @Override
             public void onSuccess(List<HistoryItem> value) {
                 getView().showHistory(value);
@@ -53,13 +53,10 @@ class HistoryPresenter extends BaseMvpPresenter<HistoryView> {
                 .subscribe(() -> rxBus.post(item)));
     }
 
-    void subscribeOnEvents() {
-        subscribe(changesObservable, new BaseSubscriber<Changes>() {
-            @Override
-            public void onNext(Changes changes) {
-                fetchHistory();
-            }
-        });
+    void subscribeOnDBChangeEvents() {
+        addSubscription(dbChangesObservable
+                .compose(rxTransformer.subscribeOn())
+                .subscribe(it -> fetchHistory()));
     }
 
     void markForDeleteAll(List<HistoryItem> items) {

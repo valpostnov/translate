@@ -17,7 +17,7 @@ public class DeleteBookmarksUseCase implements UseCase<List<HistoryItem>, Comple
     private final TranslateRepository repository;
 
     @Inject
-    public DeleteBookmarksUseCase(TranslateRepository repository) {
+    DeleteBookmarksUseCase(TranslateRepository repository) {
         this.repository = repository;
     }
 

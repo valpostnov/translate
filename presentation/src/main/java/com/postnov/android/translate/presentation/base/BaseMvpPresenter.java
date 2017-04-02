@@ -40,11 +40,11 @@ public class BaseMvpPresenter<V extends BaseMvpView> {
         return view;
     }
 
-    protected <T> void subscribe(Observable<T> observable, Subscriber<T> subscriber) {
+    protected <T> void subscribeIO(Observable<T> observable, Subscriber<T> subscriber) {
         addSubscription(observable.compose(rxTransformer.chainSchedulers()).subscribe(subscriber));
     }
 
-    protected <T> void subscribe(Single<T> single, SingleSubscriber<T> subscriber) {
+    protected <T> void subscribeIO(Single<T> single, SingleSubscriber<T> subscriber) {
         addSubscription(single.compose(rxTransformer.singleChainSchedulers()).subscribe(subscriber));
     }
 

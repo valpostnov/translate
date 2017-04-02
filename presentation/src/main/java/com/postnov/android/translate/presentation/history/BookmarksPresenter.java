@@ -7,7 +7,6 @@ import com.postnov.android.translate.domain.interactor.GetBookmarksUseCase;
 import com.postnov.android.translate.presentation.base.BaseMvpPresenter;
 import com.postnov.android.translate.presentation.bus.RxBus;
 import com.postnov.android.translate.presentation.utils.BaseSingleSubscriber;
-import com.postnov.android.translate.presentation.utils.BaseSubscriber;
 import com.pushtorefresh.storio.sqlite.Changes;
 
 import java.util.Collections;
@@ -25,20 +24,20 @@ class BookmarksPresenter extends BaseMvpPresenter<HistoryView> {
     private final GetBookmarksUseCase getBookmarksUseCase;
     private final AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase;
     private final DeleteBookmarksUseCase deleteBookmarksUseCase;
-    private final Observable<Changes> changesObservable;
+    private final Observable<Changes> dbChangesObservable;
     private final RxBus rxBus;
 
     @Inject
-    BookmarksPresenter(GetBookmarksUseCase getBookmarksUseCase, AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase, DeleteBookmarksUseCase deleteBookmarksUseCase, Observable<Changes> changesObservable, RxBus rxBus) {
+    BookmarksPresenter(GetBookmarksUseCase getBookmarksUseCase, AddOrDeleteBookmarkUseCase addOrDeleteBookmarkUseCase, DeleteBookmarksUseCase deleteBookmarksUseCase, Observable<Changes> dbChangesObservable, RxBus rxBus) {
         this.getBookmarksUseCase = getBookmarksUseCase;
         this.addOrDeleteBookmarkUseCase = addOrDeleteBookmarkUseCase;
         this.deleteBookmarksUseCase = deleteBookmarksUseCase;
-        this.changesObservable = changesObservable;
+        this.dbChangesObservable = dbChangesObservable;
         this.rxBus = rxBus;
     }
 
     void fetchFavorite() {
-        subscribe(getBookmarksUseCase.execute(null), new BaseSingleSubscriber<List<HistoryItem>>() {
+        subscribeIO(getBookmarksUseCase.execute(null), new BaseSingleSubscriber<List<HistoryItem>>() {
             @Override
             public void onSuccess(List<HistoryItem> value) {
                 getView().showFavorite(value);
@@ -52,17 +51,15 @@ class BookmarksPresenter extends BaseMvpPresenter<HistoryView> {
                 .subscribe(() -> rxBus.post(item)));
     }
 
-    void subscribeOnEvents() {
-        subscribe(changesObservable, new BaseSubscriber<Changes>() {
-            @Override
-            public void onNext(Changes changes) {
-                fetchFavorite();
-            }
-        });
+    void subscribeOnDBChangeEvents() {
+        addSubscription(dbChangesObservable
+                .compose(rxTransformer.subscribeOn())
+                .subscribe(it -> fetchFavorite()));
     }
 
     void delete(List<HistoryItem> items) {
         addSubscription(deleteBookmarksUseCase.execute(items)
+                .compose(rxTransformer.completableSubscribeOn())
                 .subscribe(() -> rxBus.post(Collections.max(items))));
     }
 }
