@@ -6,15 +6,21 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
-import static com.postnov.android.translate.data.util.PreferencesManager.PREF_LANG_1_ALIAS;
-import static com.postnov.android.translate.data.util.PreferencesManager.PREF_LANG_1_CODE;
-import static com.postnov.android.translate.data.util.PreferencesManager.PREF_LANG_2_ALIAS;
-import static com.postnov.android.translate.data.util.PreferencesManager.PREF_LANG_2_CODE;
-
 /**
  * @author Valentin Postnov
  */
 public class LanguageHelperImpl implements LanguageHelper {
+
+    public static final String RU = "ru";
+    public static final String EN = "en";
+    public static final String ORIGINAL_LANG = "Русский";
+    public static final String TRANSLATE_LANG = "Английский";
+
+    static final String PREF_LANG_1_CODE = "pref_lang_1_code";
+    static final String PREF_LANG_2_CODE = "pref_lang_2_code";
+
+    private static final String PREF_LANG_1_ALIAS = "pref_lang_1_alias";
+    private static final String PREF_LANG_2_ALIAS = "pref_lang_2_alias";
 
     private final SharedPreferences preferences;
 
@@ -24,18 +30,18 @@ public class LanguageHelperImpl implements LanguageHelper {
     }
 
     public Observable<String> getOriginalLang() {
-        return Observable.just(preferences.getString(PREF_LANG_1_ALIAS, null));
+        return Observable.just(preferences.getString(PREF_LANG_1_ALIAS, ORIGINAL_LANG));
     }
 
     public Observable<String> getTranslateLang() {
-        return Observable.just(preferences.getString(PREF_LANG_2_ALIAS, null));
+        return Observable.just(preferences.getString(PREF_LANG_2_ALIAS, TRANSLATE_LANG));
     }
 
     public void swapLang() {
-        String langOriginalAlias = preferences.getString(PREF_LANG_1_ALIAS, null);
-        String langTranslateAlias = preferences.getString(PREF_LANG_2_ALIAS, null);
-        String langOriginalCode = preferences.getString(PREF_LANG_1_CODE, null);
-        String langTranslateCode = preferences.getString(PREF_LANG_2_CODE, null);
+        String langOriginalAlias = preferences.getString(PREF_LANG_1_ALIAS, ORIGINAL_LANG);
+        String langTranslateAlias = preferences.getString(PREF_LANG_2_ALIAS, TRANSLATE_LANG);
+        String langOriginalCode = preferences.getString(PREF_LANG_1_CODE, RU);
+        String langTranslateCode = preferences.getString(PREF_LANG_2_CODE, EN);
 
         preferences.edit()
                 .putString(PREF_LANG_1_ALIAS, langTranslateAlias)
@@ -68,7 +74,7 @@ public class LanguageHelperImpl implements LanguageHelper {
         private final String original;
         private final String translate;
 
-        public LanguagePair(String original, String translate) {
+        LanguagePair(String original, String translate) {
             this.original = original;
             this.translate = translate;
         }

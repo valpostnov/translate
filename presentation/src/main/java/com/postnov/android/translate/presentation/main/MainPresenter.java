@@ -64,12 +64,6 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
         super.detachView();
     }
 
-    private void deleteHistory() {
-        addSubscription(deleteHistoryUseCase.execute(null)
-                .compose(rxTransformer.completableSubscribeOn())
-                .subscribe());
-    }
-
     void fetchTranslate(String query) {
         queryChangeSubject.onNext(query);
     }
@@ -90,6 +84,12 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
 
     void addOrDeleteBookmarkForLatItem(HistoryItem item) {
         addSubscription(addOrDeleteBookmarkUseCase.execute(item)
+                .compose(rxTransformer.completableSubscribeOn())
+                .subscribe());
+    }
+
+    private void deleteHistory() {
+        addSubscription(deleteHistoryUseCase.execute(null)
                 .compose(rxTransformer.completableSubscribeOn())
                 .subscribe());
     }

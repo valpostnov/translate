@@ -14,7 +14,6 @@ import com.postnov.android.translate.data.entity.DictionaryEntity;
 import com.postnov.android.translate.data.gson.DictionaryJsonDeserializer;
 import com.postnov.android.translate.data.util.LanguageHelper;
 import com.postnov.android.translate.data.util.LanguageHelperImpl;
-import com.postnov.android.translate.data.util.PreferencesManager;
 import com.postnov.android.translate.data.util.QueryMapFactoryImpl;
 import com.postnov.android.translate.domain.HistoryItem;
 import com.postnov.android.translate.domain.QueryMapFactory;
@@ -97,8 +96,8 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    QueryMapFactory provideQueryMapFactory(PreferencesManager manager) {
-        return new QueryMapFactoryImpl(manager);
+    QueryMapFactory provideQueryMapFactory(SharedPreferences preferences) {
+        return new QueryMapFactoryImpl(preferences);
     }
 
     @Provides

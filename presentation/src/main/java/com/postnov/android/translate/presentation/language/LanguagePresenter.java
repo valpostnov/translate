@@ -5,17 +5,16 @@ import com.postnov.android.translate.presentation.base.BaseMvpPresenter;
 
 import javax.inject.Inject;
 
+import static com.postnov.android.translate.data.util.LanguageHelperImpl.EN;
+import static com.postnov.android.translate.data.util.LanguageHelperImpl.ORIGINAL_LANG;
+import static com.postnov.android.translate.data.util.LanguageHelperImpl.RU;
+import static com.postnov.android.translate.data.util.LanguageHelperImpl.TRANSLATE_LANG;
 import static com.postnov.android.translate.presentation.main.MainFragment.CHOOSE_ORIGINAL_LANG_ACTION;
 
 /**
  * @author Valentin Postnov
  */
 class LanguagePresenter extends BaseMvpPresenter<LanguageView> {
-
-    private static final String RU = "ru";
-    private static final String EN = "en";
-    private static final String ORIGINAL_LANG = "Русский";
-    private static final String TRANSLATE_LANG = "Английский";
 
     private final LanguageHelper languageHelper;
 

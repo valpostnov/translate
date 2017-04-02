@@ -20,4 +20,6 @@ public interface LanguageHelper {
     void setTranslate(String lang, String code);
 
     Observable<LanguagePair> getPair();
+
+
 }

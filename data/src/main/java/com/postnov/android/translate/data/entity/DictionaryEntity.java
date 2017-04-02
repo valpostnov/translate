@@ -1,5 +1,7 @@
 package com.postnov.android.translate.data.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -8,11 +10,12 @@ import java.util.List;
 public class DictionaryEntity {
 
     private String text;
-    private List<AlternateTranslateEntity> tr;
+    @SerializedName("tr")
+    private List<AlternateTranslateEntity> translates;
 
-    public DictionaryEntity(String text, List<AlternateTranslateEntity> tr) {
+    public DictionaryEntity(String text, List<AlternateTranslateEntity> translates) {
         this.text = text;
-        this.tr = tr;
+        this.translates = translates;
     }
 
     public String getText() {
@@ -20,10 +23,10 @@ public class DictionaryEntity {
     }
 
     public List<AlternateTranslateEntity> getAlternate() {
-        return tr;
+        return translates;
     }
 
     public String getTranslate() {
-        return tr.size() != 0 ? tr.get(0).getText() : null;
+        return translates.size() != 0 ? translates.get(0).getText() : null;
     }
 }

@@ -5,46 +5,40 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
-        style="@style/AppTheme.AppBarOverlay"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/fragment_main_toolbar_lng1"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:padding="8dp"
+            android:textAllCaps="true"
+            android:textColor="@color/colorBlack"
+            tools:text="Русский" />
 
-            <TextView
-                android:id="@+id/fragment_main_toolbar_lng1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:textAllCaps="true"
-                android:textColor="@android:color/black"
-                tools:text="Русский" />
+        <ImageView
+            android:id="@+id/fragment_main_toolbar_swap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:src="@drawable/ic_swap_horiz_black_24dp" />
 
-            <ImageView
-                android:id="@+id/fragment_main_toolbar_swap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:src="@drawable/ic_swap_horiz_black_24dp" />
+        <TextView
+            android:id="@+id/fragment_main_toolbar_lng2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAllCaps="true"
+            android:textColor="@color/colorBlack"
+            tools:text="Английский" />
 
-            <TextView
-                android:id="@+id/fragment_main_toolbar_lng2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:textAllCaps="true"
-                android:textColor="@android:color/black"
-                tools:text="Английский" />
-
-        </LinearLayout>
-    </android.support.v7.widget.Toolbar>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
