@@ -36,7 +36,7 @@ class BookmarksPresenter extends BaseMvpPresenter<HistoryView> {
         this.rxBus = rxBus;
     }
 
-    void fetchFavorite() {
+    void fetchBookmarks() {
         subscribeIO(getBookmarksUseCase.execute(null), new BaseSingleSubscriber<List<HistoryItem>>() {
             @Override
             public void onSuccess(List<HistoryItem> value) {
@@ -54,7 +54,7 @@ class BookmarksPresenter extends BaseMvpPresenter<HistoryView> {
     void subscribeOnDBChangeEvents() {
         addSubscription(dbChangesObservable
                 .compose(rxTransformer.subscribeOn())
-                .subscribe(it -> fetchFavorite()));
+                .subscribe(it -> fetchBookmarks()));
     }
 
     void delete(List<HistoryItem> items) {

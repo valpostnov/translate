@@ -18,7 +18,7 @@ public class BookmarksFragment extends BaseHistoryFragment<BookmarksPresenter> {
     public void onStart() {
         super.onStart();
         presenter.subscribeOnDBChangeEvents();
-        presenter.fetchFavorite();
+        presenter.fetchBookmarks();
     }
 
     @Override
