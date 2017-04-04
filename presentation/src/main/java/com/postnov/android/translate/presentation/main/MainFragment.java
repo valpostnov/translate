@@ -27,7 +27,7 @@ public class MainFragment extends BaseFragment<MainPresenter> implements MainFra
 
     public static final String CHOOSE_ORIGINAL_LANG_ACTION = "CHOOSE_ORIGINAL_LANG_ACTION";
     public static final String CHOOSE_TRANSLATE_LANG_ACTION = "CHOOSE_TRANSLATE_LANG_ACTION";
-
+    private final TranslateAdapter translateAdapter = new TranslateAdapter();
     @BindView(R.id.fragment_main_input_view)
     EditText inputView;
     @BindView(R.id.fragment_main_recycler)
@@ -40,8 +40,6 @@ public class MainFragment extends BaseFragment<MainPresenter> implements MainFra
     TextView chosenOriginalLang;
     @BindView(R.id.fragment_main_toolbar_lng2)
     TextView chosenTranslateLang;
-
-    private final TranslateAdapter translateAdapter = new TranslateAdapter();
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -119,7 +117,7 @@ public class MainFragment extends BaseFragment<MainPresenter> implements MainFra
 
     @Override
     public void onBookmarkClick(HistoryItem item) {
-        presenter.addOrDeleteBookmarkForLatItem(item);
+        presenter.addOrDeleteBookmarkForLastItem(item);
     }
 
     @OnClick(R.id.fragment_main_toolbar_lng1)

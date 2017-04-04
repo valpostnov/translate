@@ -64,6 +64,10 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
         super.detachView();
     }
 
+    /**
+     * пихаем в subject введенное слово или предложение
+     * сделано так ради debounce и применения фильтрующих операторов к строке
+     */
     void fetchTranslate(String query) {
         queryChangeSubject.onNext(query);
     }
@@ -82,12 +86,17 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
         fetchLanguages();
     }
 
-    void addOrDeleteBookmarkForLatItem(HistoryItem item) {
+    void addOrDeleteBookmarkForLastItem(HistoryItem item) {
         addSubscription(addOrDeleteBookmarkUseCase.execute(item)
                 .compose(rxTransformer.completableSubscribeOn())
                 .subscribe());
     }
 
+    /**
+     * подписываемся на subject, из которого будут литься строки,
+     * а у нас тут и debounce, и фильтры
+     * красота
+     */
     void subscribeOnQueryChange() {
         addSubscription(queryChangeObservable
                 .debounce(DEBOUNCE_TIME, MILLISECONDS)
@@ -97,6 +106,10 @@ public class MainPresenter extends BaseMvpPresenter<MainFragmentView> {
                 .subscribe(callInnerFetchTranslate));
     }
 
+    /**
+     * подписываемся на изменения последнего элемента в истории
+     * чтобы оперативно менять значок закладки
+     */
     void subscribeOnEvents() {
         addSubscription(historyItemChangesObservable
                 .compose(rxTransformer.chainSchedulers())

@@ -1,5 +1,6 @@
 package com.postnov.android.translate.presentation.base;
 
+import com.postnov.android.translate.data.repository.TranslateRepositoryTest;
 import com.postnov.android.translate.presentation.utils.RxTransformer;
 import com.postnov.android.translate.presentation.utils.TestRxTransformer;
 
@@ -16,10 +17,17 @@ import rx.SingleSubscriber;
 import static org.mockito.BDDMockito.given;
 
 /**
+ * такие дела
+ * это базовая штука для написания тестов на презентеры,
+ * но как мы видим тестов оных нет
+ *
+ * Но можно загялнуть сюда {@link TranslateRepositoryTest}
+ * единственный тест :(
+ *
  * @author Valentin Postnov
  */
 @RunWith(MockitoJUnitRunner.class)
-public class BaseMvpPresenterTest {
+public abstract class BaseMvpPresenterTest {
 
     @Spy
     @InjectMocks

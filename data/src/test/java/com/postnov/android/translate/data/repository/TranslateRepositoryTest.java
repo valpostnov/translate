@@ -61,8 +61,8 @@ public class TranslateRepositoryTest {
         when(translateRemoteDatasource.getTranslate(any())).thenReturn(Observable.empty());
 
         TestSubscriber<Translate> subscriber = new TestSubscriber<>();
-        translateRepository.getTranslate("").subscribe(subscriber);
-        subscriber.assertNoErrors();
+        translateRepository.getTranslate(anyString()).subscribe(subscriber);
+        subscriber.assertCompleted();
 
         verify(localDatasource).saveOrUpdate(any());
     }
@@ -73,8 +73,8 @@ public class TranslateRepositoryTest {
         when(translateRemoteDatasource.getTranslate(any())).thenReturn(Observable.just(translateEntity));
 
         TestSubscriber<Translate> subscriber = new TestSubscriber<>();
-        translateRepository.getTranslate("").subscribe(subscriber);
-        subscriber.assertNoErrors();
+        translateRepository.getTranslate(anyString()).subscribe(subscriber);
+        subscriber.assertCompleted();
 
         verify(localDatasource).saveOrUpdate(any());
     }

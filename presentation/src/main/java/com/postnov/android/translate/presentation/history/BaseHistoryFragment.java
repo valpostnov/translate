@@ -63,7 +63,7 @@ public abstract class BaseHistoryFragment<P extends BaseMvpPresenter> extends Ba
     }
 
     @Override
-    public void showFavorite(List<HistoryItem> items) {
+    public void showBookmarks(List<HistoryItem> items) {
         emptyView.setVisibility(historyItemAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 

@@ -22,9 +22,9 @@ public class BookmarksFragment extends BaseHistoryFragment<BookmarksPresenter> {
     }
 
     @Override
-    public void showFavorite(List<HistoryItem> items) {
+    public void showBookmarks(List<HistoryItem> items) {
         historyItemAdapter.swap(items);
-        super.showFavorite(items);
+        super.showBookmarks(items);
     }
 
     protected void onClickDelete() {

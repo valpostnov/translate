@@ -2,15 +2,13 @@ package com.postnov.android.translate.presentation.history;
 
 import com.postnov.android.translate.domain.HistoryItem;
 import com.postnov.android.translate.domain.interactor.AddOrDeleteBookmarkUseCase;
-import com.postnov.android.translate.domain.interactor.MarkHistoryForDeleteUseCase;
 import com.postnov.android.translate.domain.interactor.GetHistoryUseCase;
+import com.postnov.android.translate.domain.interactor.MarkHistoryForDeleteUseCase;
 import com.postnov.android.translate.presentation.base.BaseMvpPresenter;
 import com.postnov.android.translate.presentation.bus.RxBus;
 import com.postnov.android.translate.presentation.utils.BaseSingleSubscriber;
-import com.postnov.android.translate.presentation.utils.BaseSubscriber;
 import com.pushtorefresh.storio.sqlite.Changes;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,15 +51,21 @@ class HistoryPresenter extends BaseMvpPresenter<HistoryView> {
                 .subscribe(() -> rxBus.post(item)));
     }
 
+    /**
+     * подписываемся на события изменения в базе данных
+     */
     void subscribeOnDBChangeEvents() {
         addSubscription(dbChangesObservable
                 .compose(rxTransformer.subscribeOn())
                 .subscribe(it -> fetchHistory()));
     }
 
+    /**
+     * помечаем все элементы в истории на удаление
+     */
     void markForDeleteAll(List<HistoryItem> items) {
         addSubscription(markHistoryForDeleteUseCase.execute(items)
                 .compose(rxTransformer.completableSubscribeOn())
-                .subscribe(() -> rxBus.post(Collections.max(items))));
+                .subscribe());
     }
 }

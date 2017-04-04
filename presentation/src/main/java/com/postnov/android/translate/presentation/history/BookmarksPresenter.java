@@ -40,7 +40,7 @@ class BookmarksPresenter extends BaseMvpPresenter<HistoryView> {
         subscribeIO(getBookmarksUseCase.execute(null), new BaseSingleSubscriber<List<HistoryItem>>() {
             @Override
             public void onSuccess(List<HistoryItem> value) {
-                getView().showFavorite(value);
+                getView().showBookmarks(value);
             }
         });
     }
@@ -51,12 +51,21 @@ class BookmarksPresenter extends BaseMvpPresenter<HistoryView> {
                 .subscribe(() -> rxBus.post(item)));
     }
 
+    /**
+     * подписываемся на события изменения в базе данных
+     */
     void subscribeOnDBChangeEvents() {
         addSubscription(dbChangesObservable
                 .compose(rxTransformer.subscribeOn())
                 .subscribe(it -> fetchBookmarks()));
     }
 
+    /**
+     * очищаем список избранных
+     * после шлем событие об изменение в базе в месте с последним элементом
+     * это нужно чтобы помнять иконку закладки на главном экране.
+     * костыль походу:)
+     */
     void delete(List<HistoryItem> items) {
         addSubscription(deleteBookmarksUseCase.execute(items)
                 .compose(rxTransformer.completableSubscribeOn())

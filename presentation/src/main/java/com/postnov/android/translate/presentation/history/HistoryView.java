@@ -12,5 +12,5 @@ public interface HistoryView extends BaseMvpView {
 
     void showHistory(List<HistoryItem> items);
 
-    void showFavorite(List<HistoryItem> items);
+    void showBookmarks(List<HistoryItem> items);
 }
