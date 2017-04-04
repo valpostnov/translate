@@ -15,14 +15,14 @@ public class HistoryItemTable {
     public static final String COLUMN_ORIGINAL = "original";
     public static final String COLUMN_TRANSLATE = "translate";
     public static final String COLUMN_LANG = "lang";
-    public static final String COLUMN_IS_FAVE = "is_fave";
+    public static final String COLUMN_IS_BOOKMARK = "is_bookmark";
     public static final String COLUMN_IS_HISTORY = "is_history";
 
     public static final Query QUERY_HISTORY = Query.builder().table(TABLE).where("is_history = 1").build();
-    public static final Query QUERY_FAVE = Query.builder().table(TABLE).where("is_fave = 1").build();
+    public static final Query QUERY_BOOKMARKS = Query.builder().table(TABLE).where("is_bookmark = 1").build();
     public static final DeleteQuery QUERY_DELETE_HISTORY = DeleteQuery.builder()
             .table(TABLE)
-            .where("is_fave = 0 AND is_history = 0")
+            .where("is_bookmark = 0 AND is_history = 0")
             .build();
 
     @NonNull
@@ -32,7 +32,7 @@ public class HistoryItemTable {
                 + COLUMN_ORIGINAL + " TEXT NOT NULL, "
                 + COLUMN_TRANSLATE + " TEXT NOT NULL, "
                 + COLUMN_LANG + " TEXT NOT NULL, "
-                + COLUMN_IS_FAVE + " INTEGER NOT NUll, "
+                + COLUMN_IS_BOOKMARK + " INTEGER NOT NUll, "
                 + COLUMN_IS_HISTORY + " INTEGER NOT NUll"
                 + ");";
     }

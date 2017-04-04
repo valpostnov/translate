@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import rx.Completable;
 import rx.Single;
 
-import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.QUERY_FAVE;
+import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.QUERY_BOOKMARKS;
 import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.QUERY_HISTORY;
 
 /**
@@ -40,7 +40,7 @@ public class LocalDatasourceImpl implements LocalDatasource {
     public Single<List<HistoryItem>> getFavorite() {
         return storIOSQLite.get()
                 .listOfObjects(HistoryItem.class)
-                .withQuery(QUERY_FAVE)
+                .withQuery(QUERY_BOOKMARKS)
                 .prepare()
                 .asRxSingle();
     }

@@ -8,7 +8,7 @@ import com.pushtorefresh.storio.sqlite.operations.put.DefaultPutResolver;
 import com.pushtorefresh.storio.sqlite.queries.InsertQuery;
 import com.pushtorefresh.storio.sqlite.queries.UpdateQuery;
 
-import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_IS_FAVE;
+import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_IS_BOOKMARK;
 import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_IS_HISTORY;
 import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_LANG;
 import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_ORIGINAL;
@@ -55,7 +55,7 @@ public class HistoryItemStorIOSQLitePutResolver extends DefaultPutResolver<Histo
 
         contentValues.put(COLUMN_ORIGINAL, object.getOriginal());
         contentValues.put(COLUMN_IS_HISTORY, object.isHistory());
-        contentValues.put(COLUMN_IS_FAVE, object.isBookmark());
+        contentValues.put(COLUMN_IS_BOOKMARK, object.isBookmark());
         contentValues.put(COLUMN_TIMESTAMP, object.getTimestamp());
         contentValues.put(COLUMN_LANG, object.getLang());
         contentValues.put(COLUMN_TRANSLATE, object.getTranslated());

@@ -67,7 +67,7 @@ public class HistoryItem implements Comparable<HistoryItem> {
         return isBookmark;
     }
 
-    public void setBookmark(boolean fave) {
-        isBookmark = fave;
+    public void setBookmark(boolean isBookmark) {
+        this.isBookmark = isBookmark;
     }
 }

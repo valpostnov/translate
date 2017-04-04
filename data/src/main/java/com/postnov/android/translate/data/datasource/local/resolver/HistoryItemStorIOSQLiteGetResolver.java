@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import com.postnov.android.translate.domain.HistoryItem;
 import com.pushtorefresh.storio.sqlite.operations.get.DefaultGetResolver;
 
-import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_IS_FAVE;
+import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_IS_BOOKMARK;
 import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_IS_HISTORY;
 import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_LANG;
 import static com.postnov.android.translate.data.datasource.local.table.HistoryItemTable.COLUMN_ORIGINAL;
@@ -27,7 +27,7 @@ public class HistoryItemStorIOSQLiteGetResolver extends DefaultGetResolver<Histo
 
         object.setOriginal(cursor.getString(cursor.getColumnIndex(COLUMN_ORIGINAL)));
         object.setHistory(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_HISTORY)) == 1);
-        object.setBookmark(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_FAVE)) == 1);
+        object.setBookmark(cursor.getInt(cursor.getColumnIndex(COLUMN_IS_BOOKMARK)) == 1);
         object.setTimestamp(cursor.getLong(cursor.getColumnIndex(COLUMN_TIMESTAMP)));
         object.setLang(cursor.getString(cursor.getColumnIndex(COLUMN_LANG)));
         object.setTranslated(cursor.getString(cursor.getColumnIndex(COLUMN_TRANSLATE)));
